@@ -49,7 +49,24 @@ EDE.Admin.API = {
         return true;
     },
     getById : function(apiObjectName, apiObjectId, successToastMessage, callback) {
+        if(typeof(callback) !== "function" || typeof(apiObjectName) !== "string" || typeof(apiObjectId) !== "string" || typeof(successToastMessage) !== "string") {
+            return false;
+        }
         
+        $.ajax({
+            type : "GET",
+            url : Server.URL + apiObjectName + "/" + apiObjectId,
+            dataType : "json",
+            success : function(data) {
+                $().toastmessage('showSuccessToast', successToastMessage);
+                callback(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                $().toastmessage('showErrorToast', "An Error Occured. Check the console for details.");
+                console.log(textStatus + ' ' + errorThrown);
+            }
+        });
+        return true;
     },
     update : function(apiObjectName, apiObjectId, dataObject, successToastMessage) {
         if(typeof(dataObject) !== "object" || typeof(apiObjectId) !== "string" || typeof(apiObjectId) !== "string" || typeof(successToastMessage) !== "string") {
