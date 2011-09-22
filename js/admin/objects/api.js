@@ -2,8 +2,8 @@
 // requires jQuery
 
 EDE.Admin.API = {
-    create : function(dataObject /*object name*/, apiObjectName /*string*/, successToastMessage /*string*/) {
-        if(typeof(dataObject) !== "object" && typeof(apiObjectName) !== "string" && typeof(successToastMessage) !== "string") {
+    create : function(dataObject /*object*/, apiObjectName /*string*/, successToastMessage /*string*/) {
+        if(typeof(dataObject) !== "object" || typeof(apiObjectName) !== "string" || typeof(successToastMessage) !== "string") {
             return false;
         }
         
@@ -29,7 +29,7 @@ EDE.Admin.API = {
         return true;
     },
     get : function(apiObjectName/*string*/, successToastMessage/*string*/, callback/*function*/) {
-        if(typeof(callback) !== "function" && typeof(apiObjectName) !== "string" && typeof(successToastMessage) !== "string") {
+        if(typeof(callback) !== "function" || typeof(apiObjectName) !== "string" || typeof(successToastMessage) !== "string") {
             return false;
         }
         
@@ -48,8 +48,11 @@ EDE.Admin.API = {
         });
         return true;
     },
+    getById : function(apiObjectName, apiObjectId, successToastMessage, callback) {
+        
+    },
     update : function(apiObjectName, apiObjectId, dataObject, successToastMessage) {
-        if(typeof(dataObject) !== "object" && typeof(apiObjectId) !== "string" && typeof(apiObjectId) !== "string" && typeof(successToastMessage) !== "string") {
+        if(typeof(dataObject) !== "object" || typeof(apiObjectId) !== "string" || typeof(apiObjectId) !== "string" || typeof(successToastMessage) !== "string") {
             return false;
         }
         dataObject = JSON.stringify(dataObject);
