@@ -51,7 +51,6 @@ JSListBox.prototype.refresh = function() {
 	for(var i in this.items)
 	{
 		var item = this.items[i];
-                console.log(item);
 		var renderedItemHTML = item.render();
 		var itemActivated = false;
 		if(this.SelectedItem == item)

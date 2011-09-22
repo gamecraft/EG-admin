@@ -1,9 +1,32 @@
-// namespace
+// namespaces
+
+/**
+ * The main namespace. Every object goes there. EDE = Europen Entrepreneurship Day
+ **/
 EDE = {};
+
+/**
+ * Objects and constants that are related to the admin panel
+ **/
 EDE.Admin = {};
+
+/**
+ * Objects and functions that are related to the User Interface
+ **/
 EDE.Admin.UI = {};
 
-EDE.Admin.clearDivWithInputs = function(divId /*string*/) {
+/**
+ * All UI initializations happen here
+ **/
+EDE.Admin.UI.init = function() {
+    $( "#tabs" ).tabs();
+};
+
+/**
+ * A simple clear function
+ * Takes a div ID and sets the values of all text inputs to ""
+ **/
+EDE.Admin.UI.clearDivWithInputs = function(divId /*string*/) {
     if(typeof(divId) !== "string") {
         return false;
     }
@@ -13,7 +36,10 @@ EDE.Admin.clearDivWithInputs = function(divId /*string*/) {
     return true;
 };
 
-EDE.Admin.configToasts = function(config /*object*/) {
+/**
+ * Global configuration for the jQuery Toast plugin
+ **/
+EDE.Admin.UI.configToasts = function(config /*object*/) {
     if(typeof(config) !== "object") {
         return false;
     }
@@ -21,42 +47,70 @@ EDE.Admin.configToasts = function(config /*object*/) {
     return true;
 };
 
+/**
+ * This is the custom ListBoxItem class that is used in the app
+ * It takes a hidden input id to update the selected item's value
+ **/
 EDE.Admin.UI.ListBoxItem = JSListBox.Item.extend({
     text: "",
-    init: function(text) {
-        this.text = text;
+    init: function(config) {
+        this.text = config.text;
+        this.value = config.value;
+        this.selectedItemId = config.hiddenId;
     },
     render: function() {
         return '<a href="#">' + this.text + '</a>';
-    } 
+    },
+    onClick : function() {
+        $("#{0}".format(this.selectedItemId)).val(this.value); 
+    }
 });
 
-EDE.Admin.UI.init = function() {
-    $( "#tabs" ).tabs();
+EDE.Admin.UI.createListBox = function(containerSelector/*string*/, valueContainer /*string*/, data/*object*/) {
+    var listBox = new JSListBox({
+        "containerSelector" : containerSelector
+    });
+    var dataProvider = [];
+    $.each(data, function(key, val){
+        dataProvider.push(new EDE.Admin.UI.ListBoxItem({
+            text : key ,
+            value : val,
+            hiddenId : valueContainer
+        }))
+    });
+    
+    listBox.addItems(dataProvider);
 };
 
+/**
+ * Creates an <select> component inside componentId and populates it with <option>s from the data array
+ **/
 EDE.Admin.UI.optionComponent = function(componentId /*string*/, data /*array*/) {
     $(data).each(function(index, item){
-        console.log(item);
         $("#{0}".format(componentId)).append('<option value="{0}">{1}</option'.format(item, item));
     });
 };
 
+// main jQuery DOM ready function
 $(document).ready(function(){
     var admin = EDE.Admin;
     admin.UI.init();
     
-    var skillsArray = ["Помодоро", "Lean", "Мисловни Карти", "Scrum", "Фото-Четене", "Предприемачество", "Презентация", "BrainStorming", "6 Мислещи Шапки"    ];
-    
-    admin.UI.optionComponent("masterSkillForSkill", skillsArray);
-    admin.UI.optionComponent("masterSkillForAchievment", skillsArray);
     // general config for the toasts
-    admin.configToasts({
+    admin.UI.configToasts({
         position : "top-right",
         sticky : false
     });
     
-    // autocomplete the names
+    var skillsArray = ["Помодоро", "Lean", "Мисловни Карти", 
+    "Scrum", "Фото-Четене", "Предприемачество", 
+    "Презентация", "BrainStorming", "6 Мислещи Шапки", "НЛП"];
+    
+    admin.UI.optionComponent("masterSkillForSkill", skillsArray);
+    admin.UI.optionComponent("masterSkillForAchievment", skillsArray);
+    
+    
+    // autocomplete the names and load the ListBoxes
     admin.API.get(Server.API.TeamMember, "Members fetched", function(data) {
         var membersDataProvider = [];
         var nameToId = {};
@@ -69,18 +123,20 @@ $(document).ready(function(){
             source : membersDataProvider
         });
         EDE.Admin.TeamMember.cacheMembers(nameToId);
-        
-        for(i = 0, len = membersDataProvider.length; i < len; ++i) {
-            membersDataProvider[i] = new EDE.Admin.UI.ListBoxItem(membersDataProvider[i]);
-        }
-        
-        var listBox = new JSListBox({
-            containerSelector : "membersListBox"
-        });
-        
-        listBox.addItems(membersDataProvider);
-        
+        EDE.Admin.UI.createListBox("userList", "userListHidden", nameToId);
     });
+    
+    admin.API.get(Server.API.Skill, "Skills fetched", function(data) {
+        console.log(data);
+        console.log(EDE.Admin.Skill.groupBy(data.data, "parentName"));
+        var skillNameToId = {};
+        for(var i = 0, len = data.data.length; i < len; ++i) {
+            skillNameToId[data.data[i].name] = data.data[i]._id;
+        }
+        EDE.Admin.UI.createListBox("skillList", "skillListHidden", skillNameToId); 
+    });
+    
+    // click handlers goes down
     
     $("#addSkillButton").click(function() {
         // gather the data
@@ -113,8 +169,7 @@ $(document).ready(function(){
         $(".teamMembers").each(function(index, item){
             teamMembers.push(EDE.Admin.TeamMember.getIdByName($(item).val())); 
         });
-        
-        console.log(teamMembers);
+
         var dataObject = {
             name : teamName,
             members : teamMembers
@@ -139,7 +194,4 @@ $(document).ready(function(){
         
         admin.API.create(dataObject, Server.API.Achievment, "Created achievment {0}".format(achievmentName));
     });
-    
-// init the jQuery UI Listbox
-    
 });

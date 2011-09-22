@@ -13,14 +13,14 @@ header("Content-Type: text/html; charset=utf-8");
         -->
         <script type="text/javascript" src="js/admin/jquery.toastmessage.js"></script>
         <link href="js/admin/resources/css/jquery.toastmessage.css" rel="stylesheet" />
-       
+
         <!--  jQuery List Plugin
               https://github.com/mpalmerlee/jQuery-UI-Listbox/
         -->
         <link rel="stylesheet" href="js/admin/js-listbox-style.css" />
         <script type="text/javascript" src="js/admin/js-inherit.js"></script>
         <script type="text/javascript" src="js/admin/js-listbox.js"></script>
-        
+
         <!--   Main JavaScript logic-->
         <script type="text/javascript" src="js/additional_prototypes.js"></script>
         <script type="text/javascript" src="js/server_constants.js"></script>
@@ -31,7 +31,7 @@ header("Content-Type: text/html; charset=utf-8");
         <script type="text/javascript" src="js/admin/objects/skill.js"></script>
         <script type="text/javascript" src="js/admin/objects/team_member.js"></script>
         <style>
-            #membersListBox {
+            .listBox {
                 width: 250px;
                 height: 150px;
             }
@@ -66,6 +66,13 @@ header("Content-Type: text/html; charset=utf-8");
                     <input id="skillLevel" type="text" />
                     <br />
                     <input id="addSkillButton" type="button" value="Add Skill" />
+                    <hr />
+                    <div id="skillList" class="listBox">
+                        <!--ListBox-->
+
+                    </div>
+                    <input type="hidden" id="skillListHidden" />
+                    <br />
                 </div>
             </div>
             <div id="tabs-2"> <!-- Teams Tab -->
@@ -78,6 +85,7 @@ header("Content-Type: text/html; charset=utf-8");
                     <input id="addMemberButton" type="button" value="Register member" />
                     <br />
                     <hr />
+
                     <!--New team registration-->
                     <label for="teamName">Team name:</label>
                     <br />
@@ -95,6 +103,14 @@ header("Content-Type: text/html; charset=utf-8");
                     <strong>#4</strong> : <input class="teamMembers" type="text" />
                     <br />
                     <input id="addTeamButton" type="button" value="Add Team" />
+                    <hr />
+
+                    <div id="userList" class="listBox"></div>
+                    <input type="hidden" id="userListHidden" />
+
+                    <div id="skillPlace" style="float:right">
+                        
+                    </div>
                 </div>
             </div>
             <div id="tabs-3"><!-- Achievments Tab -->
@@ -122,9 +138,8 @@ header("Content-Type: text/html; charset=utf-8");
             <div id="tabs-4">
                 <a href="lottery.php" target="_blank">Click to go to the Lottery :)</a>
             </div>
-            
+
             <div id="tabs-5">
-                <div id="membersListBox"></div>
             </div>
         </div>
     </body>

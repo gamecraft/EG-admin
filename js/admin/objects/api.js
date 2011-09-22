@@ -28,8 +28,8 @@ EDE.Admin.API = {
         
         return true;
     },
-    get : function(apiObjectName/*object*/, successToastMessage/*string*/, callback/*function*/) {
-        if(typeof(callback) !== "function" && typeof(apiObjectName) !== "object" && typeof(successToastMessage) !== "string") {
+    get : function(apiObjectName/*string*/, successToastMessage/*string*/, callback/*function*/) {
+        if(typeof(callback) !== "function" && typeof(apiObjectName) !== "string" && typeof(successToastMessage) !== "string") {
             return false;
         }
         
@@ -40,6 +40,27 @@ EDE.Admin.API = {
             success : function(data) {
                 $().toastmessage('showSuccessToast', successToastMessage);
                 callback(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                $().toastmessage('showErrorToast', "An Error Occured. Check the console for details.");
+                console.log(textStatus + ' ' + errorThrown);
+            }
+        });
+        return true;
+    },
+    update : function(apiObjectName, apiObjectId, dataObject, successToastMessage) {
+        if(typeof(dataObject) !== "object" && typeof(apiObjectId) !== "string" && typeof(apiObjectId) !== "string" && typeof(successToastMessage) !== "string") {
+            return false;
+        }
+        dataObject = JSON.stringify(dataObject);
+        $.ajax({
+            type : "UPDATE",
+            url : Server.URL + apiObjectName + "/" + apiObjectId,
+            dataType : "json",
+            contentType:"application/json; charset=utf-8",
+            data : dataObject,
+            success : function(data) {
+                $().toastmessage('showSuccessToast', successToastMessage);
             },
             error: function(jqXHR, textStatus, errorThrown){
                 $().toastmessage('showErrorToast', "An Error Occured. Check the console for details.");
