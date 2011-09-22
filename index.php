@@ -35,6 +35,10 @@ header("Content-Type: text/html; charset=utf-8");
                 width: 250px;
                 height: 150px;
             }
+            
+            .subSkills {
+                margin-left: 10px;
+            }
         </style>
     </head>
     <body>
@@ -108,7 +112,7 @@ header("Content-Type: text/html; charset=utf-8");
                     <div id="userList" class="listBox"></div>
                     <input type="hidden" id="userListHidden" />
 
-                    <div id="skillPlace" style="float:right">
+                    <div id="skillPlace">
                         
                     </div>
                 </div>

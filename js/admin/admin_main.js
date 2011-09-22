@@ -53,16 +53,24 @@ EDE.Admin.UI.configToasts = function(config /*object*/) {
  **/
 EDE.Admin.UI.ListBoxItem = JSListBox.Item.extend({
     text: "",
-    init: function(config) {
+    init: function(config, clickCallback /*optional, function*/) {
         this.text = config.text;
         this.value = config.value;
         this.selectedItemId = config.hiddenId;
+        
+        if(typeof(clickCallback) !== "undefined") {
+            this.clickCallback = clickCallback;
+        }
     },
     render: function() {
         return '<a href="#">' + this.text + '</a>';
     },
     onClick : function() {
         $("#{0}".format(this.selectedItemId)).val(this.value); 
+        
+        if(typeof(this.clickCallback) !== "undefined") {
+            this.clickCallback(this.value);
+        }
     }
 });
 
@@ -88,6 +96,13 @@ EDE.Admin.UI.createListBox = function(containerSelector/*string*/, valueContaine
 EDE.Admin.UI.optionComponent = function(componentId /*string*/, data /*array*/) {
     $(data).each(function(index, item){
         $("#{0}".format(componentId)).append('<option value="{0}">{1}</option'.format(item, item));
+    });
+};
+
+EDE.Admin.UI.updateSkillBox = function(groupedSkills /*object*/) {
+    $.each(groupedSkills, function(key, value){
+        $("#skillPlace").append('<div id="{0}">{1}</p>'.format(key, key));
+        $("#{0}".format(key)).append("<p class='subSkills'>Test</p>");
     });
 };
 
@@ -128,7 +143,9 @@ $(document).ready(function(){
     
     admin.API.get(Server.API.Skill, "Skills fetched", function(data) {
         console.log(data);
-        console.log(EDE.Admin.Skill.groupBy(data.data, "parentName"));
+        var groupedSkills = EDE.Admin.Skill.groupBy(data.data, "parentName");
+        EDE.Admin.UI.updateSkillBox(groupedSkills);
+       
         var skillNameToId = {};
         for(var i = 0, len = data.data.length; i < len; ++i) {
             skillNameToId[data.data[i].name] = data.data[i]._id;
