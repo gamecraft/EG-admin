@@ -74,7 +74,7 @@ EDE.Admin.UI.ListBoxItem = JSListBox.Item.extend({
     }
 });
 
-EDE.Admin.UI.createListBox = function(containerSelector/*string*/, valueContainer /*string*/, data/*object*/) {
+EDE.Admin.UI.createListBox = function(containerSelector/*string*/, valueContainer /*string*/, data/*object*/, callback /*function*/) {
     var listBox = new JSListBox({
         "containerSelector" : containerSelector
     });
@@ -84,7 +84,7 @@ EDE.Admin.UI.createListBox = function(containerSelector/*string*/, valueContaine
             text : key ,
             value : val,
             hiddenId : valueContainer
-        }))
+        }, callback))
     });
     
     listBox.addItems(dataProvider);
@@ -102,7 +102,9 @@ EDE.Admin.UI.optionComponent = function(componentId /*string*/, data /*array*/) 
 EDE.Admin.UI.updateSkillBox = function(groupedSkills /*object*/) {
     $.each(groupedSkills, function(key, value){
         $("#skillPlace").append('<div id="{0}">{1}</p>'.format(key, key));
-        $("#{0}".format(key)).append("<p class='subSkills'>Test</p>");
+        for(var i = 0, len = value.length; i < len; ++i) {
+            $("#{0}".format(key)).append("<p class='subSkills'>{0} - Level {1} <input type='button' value='+' /></p>".format(value[i].name, value[i].level));
+        }
     });
 };
 
@@ -129,16 +131,24 @@ $(document).ready(function(){
     admin.API.get(Server.API.TeamMember, "Members fetched", function(data) {
         var membersDataProvider = [];
         var nameToId = {};
+        var IdToObject = {};
         
         for(var i = 0, len = data.data.length; i < len; ++i) {
             membersDataProvider.push(data.data[i].name);
             nameToId[data.data[i].name] = data.data[i]._id;
+            IdToObject[data.data[i]._id] = data.data[i];
         }
         $(".teamMembers").autocomplete({
             source : membersDataProvider
         });
-        EDE.Admin.TeamMember.cacheMembers(nameToId);
-        EDE.Admin.UI.createListBox("userList", "userListHidden", nameToId);
+        admin.TeamMember.cacheMembers(nameToId);
+        admin.TeamMember.cacheObjects(IdToObject);
+        
+        admin.UI.createListBox("userList", "userListHidden", nameToId, function(value){
+            console.log(value);
+        // fetch the skills for the given user
+            
+        });
     });
     
     admin.API.get(Server.API.Skill, "Skills fetched", function(data) {
