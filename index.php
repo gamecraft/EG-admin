@@ -85,6 +85,7 @@ header("Content-Type: text/html; charset=utf-8");
                     </div>
                     <input type="hidden" id="skillListHidden" />
                     <br />
+                    <div id="skillTextDescription"></div>
                 </div>
             </div>
             <div id="tabs-2"> <!-- Teams Tab -->

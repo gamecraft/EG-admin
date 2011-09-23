@@ -227,7 +227,9 @@ $(document).ready(function(){
             IdToObject[data.data[i]._id] = data.data[i];
         }
         admin.Skill.IdToObject = IdToObject;
-        admin.UI.createListBox("skillList", "skillListHidden", skillNameToId); 
+        admin.UI.createListBox("skillList", "skillListHidden", skillNameToId, function(value){
+            $("#skillTextDescription").html(admin.Skill.getObjectById(value).description);
+        });
     });
     
     /**
