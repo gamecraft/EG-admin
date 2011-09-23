@@ -116,9 +116,7 @@ EDE.Admin.UI.createSkillBox = function(groupedSkills /*object*/) {
 
 EDE.Admin.UI.updateSkillBox = function(userSkills /*groupedSkills format!!*/) {
     var groupedSkills = EDE.Admin.Skill.groupedSkills;
-    console.log(groupedSkills);
-    console.log(userSkills);
-    
+
     for(var key in groupedSkills) {
         if(groupedSkills.hasOwnProperty(key)) {
             var value = groupedSkills[key];
@@ -128,7 +126,6 @@ EDE.Admin.UI.updateSkillBox = function(userSkills /*groupedSkills format!!*/) {
                 containerSelector = containerSelector.replace("!", "");
                 if(typeof(userSkills[key]) === "undefined") {
                     // the user does not have skills from this parent
-                
                     $(containerSelector).addClass("notassigned");
                     continue;
                 }
@@ -136,15 +133,13 @@ EDE.Admin.UI.updateSkillBox = function(userSkills /*groupedSkills format!!*/) {
             
                 if(EDE.Admin.Skill.contains(value[i].name, userSkillsArray)) {
                     $(containerSelector).addClass("assigned");
-                    console.log("A match!");
                 } else {
                     $(containerSelector).addClass("notassigned");
-                    console.log("Not assigned!");
                 }
             }
         }
     }
-}
+};
 
 // main jQuery DOM ready function
 $(document).ready(function(){
@@ -164,8 +159,12 @@ $(document).ready(function(){
     admin.UI.optionComponent("masterSkillForSkill", skillsArray);
     admin.UI.optionComponent("masterSkillForAchievment", skillsArray);
     
-    
-    // autocomplete the names and load the ListBoxes
+    /**
+     *  FETCH THE TEAM MEMBERS
+     *  After the TeamMembers are fetched the following things happen :
+     *  Autocompletes are assigned where username input is needed
+     *  ListBox is created for the teams tab
+     **/
     admin.API.get(Server.API.TeamMember, "Members fetched", function(data) {
         var membersDataProvider = [];
         var nameToId = {};
@@ -203,6 +202,11 @@ $(document).ready(function(){
         });
     });
     
+    /**
+     *  FETCH THE SKILLS
+     *  Skills are grouped by parent name and the SkillBox is populated with data
+     *  ListBox is created with the name of the skills
+     **/
     admin.API.get(Server.API.Skill, "Skills fetched", function(data) {
         console.log(data);
         var IdToObject = {};
@@ -220,8 +224,9 @@ $(document).ready(function(){
         admin.UI.createListBox("skillList", "skillListHidden", skillNameToId); 
     });
     
-    // click handlers goes down
-    
+    /**
+     *  CLICK HANDLERS
+     **/
     $("#addSkillButton").click(function() {
         // gather the data
         var 
