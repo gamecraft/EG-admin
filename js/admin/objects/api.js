@@ -90,6 +90,7 @@ EDE.Admin.API = {
         return true;
     },
     addSkillToMember : function(memberId, skillId) {
+        console.log(Server.API.TeamMember + "/" + memberId + '/skill');
         this.update(Server.API.TeamMember, memberId + '/skill', {
             "skillId" : skillId
         }, "Added skill to member");

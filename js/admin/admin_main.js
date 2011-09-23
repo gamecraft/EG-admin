@@ -121,6 +121,7 @@ EDE.Admin.UI.createSkillBox = function(groupedSkills /*object*/) {
 };
 
 EDE.Admin.UI.updateSkillBox = function(userSkills /*groupedSkills format!!*/) {
+    console.log(userSkills);
     var groupedSkills = EDE.Admin.Skill.groupedSkills;
 
     for(var key in groupedSkills) {
@@ -188,19 +189,17 @@ $(document).ready(function(){
         admin.TeamMember.cacheObjects(IdToObject);
         
         admin.UI.createListBox("userList", "userListHidden", nameToId, function(value){
-            console.log(value);
             // fetch the skills for the given user
             var selectedUser = admin.TeamMember.getObjectById(value);
-            console.log(selectedUser);
-            
-            if(typeof(selectedUser.skills) !== "undefined") {
+            if(typeof(selectedUser["skills"]) !== "undefined") {
                 // group
                 var groupedSkills = [];
                 for(var i = 0, len = selectedUser.skills.length; i < len; ++i) {
-                    groupedSkills.push(selectedUser.skills[i].skillId);
-                    groupedSkills = admin.Skill.groupBy(groupedSkills, "parentName");
-                    admin.UI.updateSkillBox(groupedSkills);
+                    console.log(i,groupedSkills);
+                    groupedSkills.push(admin.Skill.getObjectById(selectedUser.skills[i]["skillId"]));
                 }
+                groupedSkills = admin.Skill.groupBy(groupedSkills, "parentName");
+                admin.UI.updateSkillBox(groupedSkills);
             } else {
                 admin.UI.updateSkillBox({});
             }
