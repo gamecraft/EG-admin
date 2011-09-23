@@ -74,7 +74,7 @@ EDE.Admin.API = {
         }
         dataObject = JSON.stringify(dataObject);
         $.ajax({
-            type : "UPDATE",
+            type : "PUT",
             url : Server.URL + apiObjectName + "/" + apiObjectId,
             dataType : "json",
             contentType:"application/json; charset=utf-8",
@@ -88,7 +88,10 @@ EDE.Admin.API = {
             }
         });
         return true;
+    },
+    addSkillToMember : function(memberId, skillId) {
+        this.update(Server.API.TeamMember, memberId + '/skill', {
+            "skillId" : skillId
+        }, "Added skill to member");
     }
 };
-
-

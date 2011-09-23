@@ -107,10 +107,16 @@ EDE.Admin.UI.createSkillBox = function(groupedSkills /*object*/) {
             var id = value[i].name.removeWhiteSpace();
             id = id.replace("!", "");
             
-            var htmlContent = "<p id='{0}' class='subSkills'>{1} - Level {2} <input type='button' value='+' /></p>";
-            htmlContent = htmlContent.format(id /*id*/, value[i].name/*name*/, value[i].level /*level*/);
+            var htmlContent = "<p id='{0}' class='subSkills'>{1} - Level {2} <input type='button' class='assign' value='+' /><input type='hidden' value='{3}' /></p>";
+            htmlContent = htmlContent.format(id /*id*/, value[i].name/*name*/, value[i].level /*level*/, value[i]._id /*hidden value*/);
             $("#{0}".format(key.removeWhiteSpace())).append(htmlContent);
         }
+    });
+    $(".assign").click(function(event) {
+        var memberId = $("#userListHidden").val(),
+        skillId = $(event.target).next().val();
+        
+        EDE.Admin.API.addSkillToMember(memberId, skillId);
     });
 };
 
