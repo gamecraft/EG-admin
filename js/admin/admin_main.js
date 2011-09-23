@@ -116,6 +116,12 @@ EDE.Admin.UI.createSkillBox = function(groupedSkills /*object*/) {
         var memberId = $("#userListHidden").val(),
         skillId = $(event.target).next().val();
         
+        // visualy show that is assigned
+        $(event.target).parent().removeClass("notassigned");
+        $(event.target).parent().removeClass("assigned");
+        $(event.target).parent().addClass("assigned");
+        $(event.target).css("visibility", "hidden");
+        
         EDE.Admin.API.addSkillToMember(memberId, skillId);
     });
 };
@@ -131,6 +137,11 @@ EDE.Admin.UI.updateSkillBox = function(userSkills /*groupedSkills format!!*/) {
                 // make the id compatible for HTML element id
                 var containerSelector = "#{0}".format(value[i].name.removeWhiteSpace());
                 containerSelector = containerSelector.replace("!", "");
+                // clear all classes
+                $(containerSelector).removeClass("notassigned");
+                $(containerSelector).removeClass("assigned");
+                $(containerSelector).children("input[type=button]").css("visibility", "visible");
+                
                 if(typeof(userSkills[key]) === "undefined") {
                     // the user does not have skills from this parent
                     $(containerSelector).addClass("notassigned");
@@ -140,6 +151,8 @@ EDE.Admin.UI.updateSkillBox = function(userSkills /*groupedSkills format!!*/) {
             
                 if(EDE.Admin.Skill.contains(value[i].name, userSkillsArray)) {
                     $(containerSelector).addClass("assigned");
+                    console.log( $(containerSelector).children("input[type=hidden]"));
+                    $(containerSelector).children("input[type=button]").css("visibility", "hidden");
                 } else {
                     $(containerSelector).addClass("notassigned");
                 }
