@@ -19,12 +19,17 @@ EDE.Admin.Skill = {
     },
     contains : function(skillName, userSkillArray) {
         // maybe binary search @_@
-        for(var i = 0, len = userSkillArray.lenght; i < len; ++i) {
+        for(var i = 0, len = userSkillArray.length; i < len; ++i) {
+            console.log(userSkillArray[i].name, skillName)
             if(userSkillArray[i].name == skillName) {
                 return true;
             }
         }
         return false;
-    }, 
-    groupedSkills : {} // all skills
+    },
+    getObjectById : function(id) {
+        return this.IdToObject[id];
+    },
+    groupedSkills : {}, // all skills
+    IdToObject : {}
 };

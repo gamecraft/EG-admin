@@ -116,28 +116,34 @@ EDE.Admin.UI.createSkillBox = function(groupedSkills /*object*/) {
 
 EDE.Admin.UI.updateSkillBox = function(userSkills /*groupedSkills format!!*/) {
     var groupedSkills = EDE.Admin.Skill.groupedSkills;
+    console.log(groupedSkills);
+    console.log(userSkills);
     
-    $.each(groupedSkills, function(key, value) {
-        for(var i = 0, len = value.length; i < len; ++i) {
-            var containerSelector = "#{0}".format(value[i].name.removeWhiteSpace());
-            containerSelector = containerSelector.replace("!", "");
+    for(var key in groupedSkills) {
+        if(groupedSkills.hasOwnProperty(key)) {
+            var value = groupedSkills[key];
+            for(var i = 0, len = value.length; i < len; ++i) {
+                // make the id compatible for HTML element id
+                var containerSelector = "#{0}".format(value[i].name.removeWhiteSpace());
+                containerSelector = containerSelector.replace("!", "");
+                if(typeof(userSkills[key]) === "undefined") {
+                    // the user does not have skills from this parent
+                
+                    $(containerSelector).addClass("notassigned");
+                    continue;
+                }
+                var userSkillsArray = userSkills[key];
             
-            if(typeof(userSkills[key]) === "undefined") {
-                // the user does not have skills from this parent
-                $(containerSelector).addClass("notassigned");
-                console.log("No parrent");
-                continue;
-            }
-            var userSkillsArray = userSkills[key];
-            
-            if(EDE.Admin.Skill.contains(value[i].name, userSkillsArray)) {
-                $(containerSelector).addClass("assigned");
-            } else {
-                $(containerSelector).addClass("notassigned");
+                if(EDE.Admin.Skill.contains(value[i].name, userSkillsArray)) {
+                    $(containerSelector).addClass("assigned");
+                    console.log("A match!");
+                } else {
+                    $(containerSelector).addClass("notassigned");
+                    console.log("Not assigned!");
+                }
             }
         }
-        
-    });
+    }
 }
 
 // main jQuery DOM ready function
@@ -184,6 +190,12 @@ $(document).ready(function(){
             
             if(typeof(selectedUser.skills) !== "undefined") {
                 // group
+                var groupedSkills = [];
+                for(var i = 0, len = selectedUser.skills.length; i < len; ++i) {
+                    groupedSkills.push(selectedUser.skills[i].skillId);
+                    groupedSkills = admin.Skill.groupBy(groupedSkills, "parentName");
+                    admin.UI.updateSkillBox(groupedSkills);
+                }
             } else {
                 admin.UI.updateSkillBox({});
             }
@@ -193,15 +205,18 @@ $(document).ready(function(){
     
     admin.API.get(Server.API.Skill, "Skills fetched", function(data) {
         console.log(data);
+        var IdToObject = {};
         var groupedSkills = admin.Skill.groupBy(data.data, "parentName");
         admin.Skill.groupedSkills = groupedSkills;
         
         admin.UI.createSkillBox(groupedSkills);
-       
+        
         var skillNameToId = {};
         for(var i = 0, len = data.data.length; i < len; ++i) {
             skillNameToId[data.data[i].name] = data.data[i]._id;
+            IdToObject[data.data[i]._id] = data.data[i];
         }
+        admin.Skill.IdToObject = IdToObject;
         admin.UI.createListBox("skillList", "skillListHidden", skillNameToId); 
     });
     
