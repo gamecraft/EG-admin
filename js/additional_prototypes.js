@@ -10,3 +10,7 @@ String.prototype.format = function() {
     }
     return formatted;
 };
+
+String.prototype.removeWhiteSpace = function() {
+  return this.replace(/\s/g, "");
+};

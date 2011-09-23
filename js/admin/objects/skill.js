@@ -16,5 +16,15 @@ EDE.Admin.Skill = {
             }
         }    
         return groupedMap;
-    }
+    },
+    contains : function(skillName, userSkillArray) {
+        // maybe binary search @_@
+        for(var i = 0, len = userSkillArray.lenght; i < len; ++i) {
+            if(userSkillArray[i].name == skillName) {
+                return true;
+            }
+        }
+        return false;
+    }, 
+    groupedSkills : {} // all skills
 };

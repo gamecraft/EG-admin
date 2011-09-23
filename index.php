@@ -35,9 +35,17 @@ header("Content-Type: text/html; charset=utf-8");
                 width: 250px;
                 height: 150px;
             }
-            
+
             .subSkills {
                 margin-left: 10px;
+            }
+
+            .assigned {
+                color : green;
+            }
+
+            .notassigned {
+                color : red;
             }
         </style>
     </head>
@@ -48,7 +56,7 @@ header("Content-Type: text/html; charset=utf-8");
                 <li><a href="#tabs-2">Teams</a></li>
                 <li><a href="#tabs-3">Achievments</a></li>
                 <li><a href="#tabs-4">Lottery</a></li>
-                <li><a href="#tabs-5">Test</a></li>
+                <li><a href="#tabs-5">Team Points</a></li>
             </ul>
             <div id="tabs-1"> <!-- Skills tab  -->
                 <div id="skillCreation">
@@ -113,7 +121,7 @@ header("Content-Type: text/html; charset=utf-8");
                     <input type="hidden" id="userListHidden" />
 
                     <div id="skillPlace">
-                        
+
                     </div>
                 </div>
             </div>
