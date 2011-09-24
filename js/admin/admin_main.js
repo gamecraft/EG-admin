@@ -259,7 +259,9 @@ $(document).ready(function(){
         
         admin.Team.IdToObject = IdToObject;
         admin.UI.createListBox("teamListBox", "teamListBoxHidden", teamNameToId, function(value){
-            
+            admin.Team.getPointsFromServer(value, function(res){
+                $("#teamPoints").val(res);
+            });
         });
         
     });
@@ -321,5 +323,16 @@ $(document).ready(function(){
         };
         
         admin.API.create(dataObject, Server.API.Achievment, "Created achievment {0}".format(achievmentName));
+    });
+    
+    $("#addTeamPointsButton").click(function(){
+        var teamId = $("#teamListBoxHidden").val(),
+        teamPointsToAdd = parseInt($("#teamPoints").val()); // is this jQuery or HTML5 fail ?
+        
+        var dataObject = {
+            totalPoints : teamPointsToAdd
+        };
+         
+        admin.API.update(Server.API.Team, teamId, dataObject, "Points added"); 
     });
 });
