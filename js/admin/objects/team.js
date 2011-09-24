@@ -7,7 +7,7 @@ EDE.Admin.Team = {
         return this.IdToObject[id];
     },
     getPointsFromServer : function(id, callback) {
-        EDE.Admin.API.getById(Server.API.Team, id, "Points fetched", function(data) {
+        EDE.Admin.API.getById(Server.API.Team, id, false, function(data) {
             res = data.data.totalPoints;
             callback(res);
         });
