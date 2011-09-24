@@ -361,6 +361,11 @@ $(document).ready(function(){
     
     $("#assignAchievement").click(function(){
         var achievmentId = $("#achievementListHidden").val(),
-        memberId = admin.Member.getIdByName($("#achievementAssignMemberName").val());
+        memberId = admin.TeamMember.getIdByName($("#achievementAssignMemberName").val());
+        var dataObject = {
+          "achievementId" : achievmentId  
+        };
+        
+        admin.API.helperMethod(Server.API.TeamMember, memberId, Server.API.Helper.ADD_ACHV, dataObject, "Achievement Added!");
     });
 });
