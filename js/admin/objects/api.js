@@ -14,7 +14,7 @@ EDE.Admin.API = (function() {
         }
     };
     return {
-        create : function(dataObject /*object*/, apiObjectName /*string*/, successToastMessage /*string*/) {
+        create : function(dataObject /*object*/, apiObjectName /*string*/, successToastMessage /*string*/, callback /*optional, function*/) {
             if(typeof(dataObject) !== "object" || typeof(apiObjectName) !== "string") {
                 return false;
             }
@@ -30,7 +30,10 @@ EDE.Admin.API = (function() {
                 contentType:"application/json; charset=utf-8",
                 success : function(data) {
                     _private.successToast(successToastMessage);
-                    console.log(data)
+                    if(typeof(callback) !== "undefined") {
+                        callback(data);
+                    }
+                    console.log(data);
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     _private.failToast();

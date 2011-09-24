@@ -197,7 +197,7 @@ $(document).ready(function(){
             nameToId[data.data[i].name] = data.data[i]._id;
             IdToObject[data.data[i]._id] = data.data[i];
         }
-        $(".teamMembers").autocomplete({
+        $(".teamMembers, .membersAutocomplete").autocomplete({
             source : membersDataProvider
         });
         admin.TeamMember.cacheMembers(nameToId);
@@ -262,7 +262,7 @@ $(document).ready(function(){
         admin.Team.IdToObject = IdToObject;
         admin.UI.createListBox("teamListBox", "teamListBoxHidden", teamNameToId, function(value){
             admin.Team.getPointsFromServer(value, function(res){
-                $("#teamPoints").val(res);
+                $("#totalTeamPoints").html(res);
             });
         });
         
@@ -311,19 +311,24 @@ $(document).ready(function(){
     });
     
     $("#addTeamButton").click(function(){
-        var teamMembers = [],
-        teamName = $("#teamName").val();
+        var teamName = $("#teamName").val();
        
-        $(".teamMembers").each(function(index, item){
-            teamMembers.push(admin.TeamMember.getIdByName($(item).val())); 
-        });
-
         var dataObject = {
             name : teamName,
-            members : teamMembers
+            totalPoints : 0
         };
         
-        admin.API.create(dataObject, Server.API.Team, "Created team {0}".format(teamName));
+        admin.API.create(dataObject, Server.API.Team, "Created team {0}".format(teamName), function(data) {
+            var createdId = data.data._id;
+            console.log(createdId);
+            $(".teamMembers").each(function(index, item) {
+                var memberId = EDE.Admin.TeamMember.getIdByName($(item).val());
+                console.log($(item).val(), memberId);
+                EDE.Admin.API.helperMethod(Server.API.Team, createdId, Server.API.Helper.ADD_MEMBER, {
+                    "memberId" : memberId
+                }, "Member added")
+            });
+        });
     });
     
     $("#addAchievmentButton").click(function(){
@@ -348,10 +353,10 @@ $(document).ready(function(){
         teamPointsToAdd = parseInt($("#teamPoints").val()); // is this jQuery or HTML5 fail ?
         
         var dataObject = {
-            totalPoints : teamPointsToAdd
+            points : teamPointsToAdd
         };
-         
-        admin.API.update(Server.API.Team, teamId, dataObject, "Points added"); 
+        admin.API.helperMethod(Server.API.Team, teamId, Server.API.Helper.ADD_POINTS, dataObject, "Points added") 
+        //admin.API.update(Server.API.Team, teamId, dataObject, "Points added"); 
     });
     
     $("#assignAchievement").click(function(){

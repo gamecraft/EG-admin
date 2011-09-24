@@ -154,7 +154,7 @@ header("Content-Type: text/html; charset=utf-8");
                     <br />
                     <label for="achievementAssignMemberName">Име:</label>
                     <br />
-                    <input type="text" id="achievementAssignMemberName" class="teamMembers" />
+                    <input type="text" id="achievementAssignMemberName" class="membersAutocomplete" />
                     <br />
                     <input type="button" value="Assign" id="assignAchievement" />
                 </div>
@@ -169,6 +169,7 @@ header("Content-Type: text/html; charset=utf-8");
                 </div>
                 <input id="teamListBoxHidden" type="hidden" />
                 <br />
+                <p id="totalTeamPoints"></p>
                 <label for="teamPoints">Team Points:</label>
                 <br />
                 <input type="number" id="teamPoints" />
