@@ -147,6 +147,16 @@ header("Content-Type: text/html; charset=utf-8");
                     <input type="text" id="teamPointsReward" value="15" />
                     <br />
                     <input id="addAchievmentButton" type="button" value="Add Achievment" />
+                    <hr />
+                
+                    <div id="achievementList" class="listBox"></div>
+                    <input type="hidden" id="achievementListHidden" />
+                    <br />
+                    <label for="achievementAssignMemberName">Име:</label>
+                    <br />
+                    <input type="text" id="achievementAssignMemberName" class="teamMembers" />
+                    <br />
+                    <input type="button" value="Assign" id="assignAchievement" />
                 </div>
             </div>
             <div id="tabs-4">

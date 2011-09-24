@@ -5,5 +5,5 @@ Server.API = {};
 Server.API.Skill = "/Skill";
 Server.API.TeamMember = "/TeamMember";
 Server.API.Team = "/Team";
-Server.API.Achievment = "/Achievement";
+Server.API.Achievement = "/Achievement";
 

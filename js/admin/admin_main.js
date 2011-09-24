@@ -265,6 +265,22 @@ $(document).ready(function(){
         });
         
     });
+    
+    /**
+     *  FETCH ACHIEVEMENTS
+     *  ListBox is created with the name of the Teams in the TeamPoints tab
+     *  
+     **/
+    admin.API.get(Server.API.Achievement, false, function(data) {
+        var achNameToId = {};
+        for(var i = 0, len = data.data.length; i < len; ++i) {
+            achNameToId[data.data[i].name] = data.data[i]._id;
+        }
+        admin.UI.createListBox("achievementList", "achievementListHidden", achNameToId, function(value){
+            console.log(value);
+        });
+    });
+    
     /**
      *  CLICK HANDLERS
      **/
@@ -297,7 +313,7 @@ $(document).ready(function(){
         teamName = $("#teamName").val();
        
         $(".teamMembers").each(function(index, item){
-            teamMembers.push(EDE.Admin.TeamMember.getIdByName($(item).val())); 
+            teamMembers.push(admin.TeamMember.getIdByName($(item).val())); 
         });
 
         var dataObject = {
@@ -334,5 +350,10 @@ $(document).ready(function(){
         };
          
         admin.API.update(Server.API.Team, teamId, dataObject, "Points added"); 
+    });
+    
+    $("#assignAchievement").click(function(){
+        var achievmentId = $("#achievementListHidden").val(),
+        memberId = admin.Member.getIdByName($("#achievementAssignMemberName").val());
     });
 });
