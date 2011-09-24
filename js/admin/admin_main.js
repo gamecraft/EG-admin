@@ -226,7 +226,6 @@ $(document).ready(function(){
      *  ListBox is created with the name of the skills
      **/
     admin.API.get(Server.API.Skill, "Skills fetched", function(data) {
-        console.log(data);
         var IdToObject = {};
         var groupedSkills = admin.Skill.groupBy(data.data, "parentName");
         admin.Skill.groupedSkills = groupedSkills;
@@ -244,6 +243,26 @@ $(document).ready(function(){
         });
     });
     
+    /**
+     *  FETCH THE TEAMS
+     *  ListBox is created with the name of the Teams in the TeamPoints tab
+     *  
+     **/
+    admin.API.get(Server.API.Team, "Teams fetched", function(data){
+        var IdToObject = {},
+        teamNameToId = {};
+        
+        for(var i = 0, len = data.data.length; i < len; ++i) {
+            teamNameToId[data.data[i].name] = data.data[i]._id;
+            IdToObject[data.data[i]._id] = data.data[i];
+        }
+        
+        admin.Team.IdToObject = IdToObject;
+        admin.UI.createListBox("teamListBox", "teamListBoxHidden", teamNameToId, function(value){
+            
+        });
+        
+    });
     /**
      *  CLICK HANDLERS
      **/

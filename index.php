@@ -30,10 +30,11 @@ header("Content-Type: text/html; charset=utf-8");
         <script type="text/javascript" src="js/admin/objects/api.js"></script>
         <script type="text/javascript" src="js/admin/objects/skill.js"></script>
         <script type="text/javascript" src="js/admin/objects/team_member.js"></script>
+        <script type="text/javascript" src="js/admin/objects/team.js"></script>
         <style>
             .listBox {
                 width: 250px;
-                height: 150px;
+                height: 300px;
             }
 
             .subSkills {
@@ -153,6 +154,16 @@ header("Content-Type: text/html; charset=utf-8");
             </div>
 
             <div id="tabs-5">
+                <div id="teamListBox" class="listBox">
+                    
+                </div>
+                <input id="teamListBoxHidden" type="hidden" />
+                <br />
+                <label for="teamPoints">Team Points:</label>
+                <br />
+                <input type="number" id="teamPoints" />
+                <br />
+                <input id="addTeamPointsButton" type="button" value="Add Team Points" />
             </div>
         </div>
     </body>
