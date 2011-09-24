@@ -11,6 +11,9 @@ EDE.Admin.Team = {
             res = data.data.totalPoints;
             callback(res);
         });
+    },
+    addTeamMember : function(memberId) {
+        
     }
 };
 

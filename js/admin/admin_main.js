@@ -121,8 +121,10 @@ EDE.Admin.UI.createSkillBox = function(groupedSkills /*object*/) {
         $(event.target).parent().removeClass("assigned");
         $(event.target).parent().addClass("assigned");
         $(event.target).css("visibility", "hidden");
-        
-        EDE.Admin.API.addSkillToMember(memberId, skillId);
+        var dataObject = {
+            "skillId" : skillId  
+        };
+        EDE.Admin.API.helperMethod(Server.API.TeamMember, memberId, Server.API.Helper.ADD_SKILL, dataObject, "Skill added");
     });
 };
 

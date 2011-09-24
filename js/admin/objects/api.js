@@ -101,6 +101,9 @@ EDE.Admin.API = (function() {
             });
             return true;
         },
+        helperMethod  : function(apiObjectName, apiObjectId, helperMethodName, dataObject ,successMessage) {
+            this.update(apiObjectName, apiObjectId + helperMethodName, dataObject, successMessage);
+        },
         addSkillToMember : function(memberId, skillId) {
             console.log(Server.API.TeamMember + "/" + memberId + '/skill');
             this.update(Server.API.TeamMember, memberId + '/skill', {
