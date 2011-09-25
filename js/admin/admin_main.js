@@ -261,7 +261,7 @@ $(document).ready(function(){
             // add the html for the jury points
             $("#teamJuryPointsContainer").append("<strong>{0}:</strong>".format(data.data[i].name));
             
-            $("#teamJuryPointsContainer").append("<div><input type='number' /><input type='hidden' value='{0}' /></div>".format(data.data[i]._id))
+            $("#teamJuryPointsContainer").append("<div><input type='number' value='0' /><input type='hidden' value='{0}' /></div>".format(data.data[i]._id))
             
             $("#teamJuryPointsContainer").append("<br />");
         }
