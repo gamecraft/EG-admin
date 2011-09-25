@@ -12,5 +12,11 @@ String.prototype.format = function() {
 };
 
 String.prototype.removeWhiteSpace = function() {
-  return this.replace(/\s/g, "");
+    return this.replace(/\s/g, "");
+};
+
+Number.prototype.times = function(f) {
+    for (var i = 0; i < this; i++) {
+        f.apply(i, [this]);
+    }
 };

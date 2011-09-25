@@ -31,6 +31,7 @@ header("Content-Type: text/html; charset=utf-8");
         <script type="text/javascript" src="js/admin/objects/skill.js"></script>
         <script type="text/javascript" src="js/admin/objects/team_member.js"></script>
         <script type="text/javascript" src="js/admin/objects/team.js"></script>
+        <script type="text/javascript" src="js/admin/objects/phase.js"></script>
         <style>
             .listBox {
                 width: 250px;
@@ -58,6 +59,7 @@ header("Content-Type: text/html; charset=utf-8");
                 <li><a href="#tabs-3">Achievments</a></li>
                 <li><a href="#tabs-4">Lottery</a></li>
                 <li><a href="#tabs-5">Team Points</a></li>
+                <li><a href="#tabs-6">Phases</a></li>
             </ul>
             <div id="tabs-1"> <!-- Skills tab  -->
                 <div id="skillCreation">
@@ -175,6 +177,16 @@ header("Content-Type: text/html; charset=utf-8");
                 <input type="number" id="teamPoints" />
                 <br />
                 <input id="addTeamPointsButton" type="button" value="Add Team Points" />
+            </div>
+            
+            <div id="tabs-6">
+                <div id="teamJuryPointsContainer">
+                    
+                </div>
+                <br />
+                <input type="button" id="endCurrentPhase" value="End current phase" />
+                <br />
+                <input type="button" id="nextPhase" value="Next phase" />
             </div>
         </div>
     </body>

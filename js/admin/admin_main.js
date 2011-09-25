@@ -257,6 +257,13 @@ $(document).ready(function(){
         for(var i = 0, len = data.data.length; i < len; ++i) {
             teamNameToId[data.data[i].name] = data.data[i]._id;
             IdToObject[data.data[i]._id] = data.data[i];
+            
+            // add the html for the jury points
+            $("#teamJuryPointsContainer").append("<p><strong>{0}</strong></p><br />".format(data.data[i].name));
+            
+            $("#teamJuryPointsContainer").append("<div><input type='number' /><input type='hidden' value='{0}' /></div>".format(data.data[i]._id))
+            
+            $("#teamJuryPointsContainer").append("<br />");
         }
         
         admin.Team.IdToObject = IdToObject;
@@ -355,17 +362,33 @@ $(document).ready(function(){
         var dataObject = {
             points : teamPointsToAdd
         };
-        admin.API.helperMethod(Server.API.Team, teamId, Server.API.Helper.ADD_POINTS, dataObject, "Points added") 
-        //admin.API.update(Server.API.Team, teamId, dataObject, "Points added"); 
+        admin.API.helperMethod(Server.API.Team, teamId, Server.API.Helper.ADD_POINTS, dataObject, "Points added");
     });
     
     $("#assignAchievement").click(function(){
         var achievmentId = $("#achievementListHidden").val(),
         memberId = admin.TeamMember.getIdByName($("#achievementAssignMemberName").val());
         var dataObject = {
-          "achievementId" : achievmentId  
+            "achievementId" : achievmentId  
         };
         
         admin.API.helperMethod(Server.API.TeamMember, memberId, Server.API.Helper.ADD_ACHV, dataObject, "Achievement Added!");
+    });
+    
+    $("#endCurrentPhase").click(function(){
+        var dataObject = [];
+        $("#teamJuryPointsContainer div").each(function(index, item) {
+            var teamId = $(item).children("input[type=hidden]").val(),
+            juryPoints = $(item).children("input[type=number]").val();
+            
+            dataObject.push({
+                "teamId" : teamId,
+                "juryPoints" : juryPoints
+            });
+        });
+        admin.Phase.getCurrent(function(data){
+            admin.Phase.markAsFinished(data.data._id, dataObject)
+        });
+            
     });
 });
