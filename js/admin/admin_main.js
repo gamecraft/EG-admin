@@ -259,7 +259,7 @@ $(document).ready(function(){
             IdToObject[data.data[i]._id] = data.data[i];
             
             // add the html for the jury points
-            $("#teamJuryPointsContainer").append("<p><strong>{0}</strong></p><br />".format(data.data[i].name));
+            $("#teamJuryPointsContainer").append("<strong>{0}:</strong>".format(data.data[i].name));
             
             $("#teamJuryPointsContainer").append("<div><input type='number' /><input type='hidden' value='{0}' /></div>".format(data.data[i]._id))
             
@@ -269,7 +269,7 @@ $(document).ready(function(){
         admin.Team.IdToObject = IdToObject;
         admin.UI.createListBox("teamListBox", "teamListBoxHidden", teamNameToId, function(value){
             admin.Team.getPointsFromServer(value, function(res){
-                $("#totalTeamPoints").html(res);
+                $("#totalTeamPoints").html("Team points: {0}".format(res));
             });
         });
         
@@ -363,6 +363,22 @@ $(document).ready(function(){
             points : teamPointsToAdd
         };
         admin.API.helperMethod(Server.API.Team, teamId, Server.API.Helper.ADD_POINTS, dataObject, "Points added");
+    });
+    
+    $("#payLotteryFeeButton").click(function(){
+        var fee = Lottery.gameConstants.ENTRY_FEE / 100,
+        toRemove = 0,
+        teamId = $("#teamListBoxHidden").val();
+        
+        admin.Team.getPointsFromServer(teamId, function(res){
+            res = parseInt(res);
+            toRemove = fee * res;
+            console.log(res, fee, toRemove);
+            var dataObject = {
+                points : -toRemove
+            };
+            admin.API.helperMethod(Server.API.Team, teamId, Server.API.Helper.ADD_POINTS, dataObject, "Fee of {0} points paid".format(toRemove));
+        });
     });
     
     $("#assignAchievement").click(function(){

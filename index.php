@@ -25,6 +25,7 @@ header("Content-Type: text/html; charset=utf-8");
         <script type="text/javascript" src="js/additional_prototypes.js"></script>
         <script type="text/javascript" src="js/server_constants.js"></script>
         <script type="text/javascript" src="js/api_constants.js"></script>
+        <script type="text/javascript" src="js/lottery/gameconstants.js"></script>
         <script type="text/javascript" src="js/json2.js"></script>
         <script type="text/javascript" src="js/admin/admin_main.js"></script>
         <script type="text/javascript" src="js/admin/objects/api.js"></script>
@@ -150,7 +151,7 @@ header("Content-Type: text/html; charset=utf-8");
                     <br />
                     <input id="addAchievmentButton" type="button" value="Add Achievment" />
                     <hr />
-                
+
                     <div id="achievementList" class="listBox"></div>
                     <input type="hidden" id="achievementListHidden" />
                     <br />
@@ -167,7 +168,7 @@ header("Content-Type: text/html; charset=utf-8");
 
             <div id="tabs-5">
                 <div id="teamListBox" class="listBox">
-                    
+
                 </div>
                 <input id="teamListBoxHidden" type="hidden" />
                 <br />
@@ -177,11 +178,14 @@ header("Content-Type: text/html; charset=utf-8");
                 <input type="number" id="teamPoints" />
                 <br />
                 <input id="addTeamPointsButton" type="button" value="Add Team Points" />
+                <br />
+                <input id="payLotteryFeeButton" type="button" value="Pay Lottery Fee (10%)" />
             </div>
-            
+
             <div id="tabs-6">
+                <p>Points that are given by the jury at the end of each phase:</p>
                 <div id="teamJuryPointsContainer">
-                    
+
                 </div>
                 <br />
                 <input type="button" id="endCurrentPhase" value="End current phase" />
