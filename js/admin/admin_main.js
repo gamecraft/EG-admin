@@ -391,4 +391,8 @@ $(document).ready(function(){
         });
             
     });
+    
+    $("#nextPhase").click(function(){
+        admin.Phase.nextPhase(); 
+    });
 });

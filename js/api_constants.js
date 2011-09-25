@@ -16,3 +16,5 @@ Server.API.Helper.ADD_POINTS = "/points" // can be added to Team and to TeamMemb
 Server.API.Helper.ADD_ACHV = "/achievement"; // can be added to Team and to TeamMember
 Server.API.Helper.CURRENT_PHASE = "/current";
 Server.API.Helper.MARK_PHASE_AS_FINISHED = "/finished";
+Server.API.Helper.NEXT_PHASE_ID = "next";
+Server.API.Helper.ACTIVE_PHASE = "/active";
