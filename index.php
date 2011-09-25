@@ -191,6 +191,8 @@ header("Content-Type: text/html; charset=utf-8");
                 <input type="button" id="endCurrentPhase" value="End current phase" />
                 <br />
                 <input type="button" id="nextPhase" value="Next phase" />
+                <br />
+                <input id="hardResetButton" type="button" value="Hard Reset" />
             </div>
         </div>
     </body>

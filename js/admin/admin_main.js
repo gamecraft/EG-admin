@@ -396,7 +396,10 @@ $(document).ready(function(){
         $("#teamJuryPointsContainer div").each(function(index, item) {
             var teamId = $(item).children("input[type=hidden]").val(),
             juryPoints = $(item).children("input[type=number]").val();
-            
+            if(juryPoints.toString() === "NaN") {
+                juryPoints = 0;
+                console.log(juryPoints);
+            }
             dataObject.push({
                 "teamId" : teamId,
                 "juryPoints" : juryPoints
@@ -410,5 +413,9 @@ $(document).ready(function(){
     
     $("#nextPhase").click(function(){
         admin.Phase.nextPhase(); 
+    });
+    
+    $("#hardResetButton").click(function(){
+       admin.Phase.resetAll(); 
     });
 });

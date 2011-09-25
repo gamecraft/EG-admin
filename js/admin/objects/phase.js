@@ -10,6 +10,9 @@ EDE.Admin.Phase = {
             phaseId = Server.API.Helper.NEXT_PHASE_ID;
         }
         EDE.Admin.API.helperMethod(Server.API.Phase, phaseId, Server.API.Helper.ACTIVE_PHASE, {}, "Next phase started");
+    },
+    resetAll : function() {
+        EDE.Admin.API.update(Server.API.Phase, "resetAll", {}, "All phases are reset.")
     }
 };
 
