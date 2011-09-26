@@ -405,10 +405,7 @@ $(document).ready(function(){
                 "juryPoints" : juryPoints
             });
         });
-        admin.Phase.getCurrent(function(data){
-            admin.Phase.markAsFinished(data.data._id, dataObject)
-        });
-            
+        admin.Phase.markAsFinished(dataObject);    
     });
     
     $("#nextPhase").click(function(){
@@ -416,6 +413,6 @@ $(document).ready(function(){
     });
     
     $("#hardResetButton").click(function(){
-       admin.Phase.resetAll(); 
+        admin.Phase.resetAll(); 
     });
 });
