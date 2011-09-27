@@ -41,7 +41,6 @@ Lottery.FlipCard = function FlipCard(config) {
             color : "#FFFFFF",
             onEnd : function() {
                 if(typeof(reward) !== "undefined") {
-                    alert(reward.name);
                     Lottery.turnAllCards([cardId], reward)
                 }
             }

@@ -11,29 +11,29 @@ Lottery.gameConstants.rewards = {};
 Lottery.gameConstants.rewards.TEAM_POINTS = {
     name : "TEAM_POINTS",
     description : "The reward is team points for 4% of entry fee",
-    image : "images/team_points.png",
-    chance : 17 // in percent
+     image : "images/team_points.png",
+    chance : 30 // in percent
 };
 
 Lottery.gameConstants.rewards.BOOK = {
     name : "BOOK",
     description : "The player wins a book. There's a small ammount of books for winning.",
     image : "images/book.png",
-    chance : 3  // in percent
+    chance : 20  // in percent
 };
 
 Lottery.gameConstants.rewards.HELP_CARD = {
     name : "HELP_CARD",
     description : "The player receives a +1 help card.",
     image : "images/help_card.png",
-    chance : 10  // in percent
+    chance : 1  // in percent
 };
 
 Lottery.gameConstants.rewards.NEW_SKILL = {
     name : "NEW_SKILL",
     description : "One level of new skill.",
     image : "images/new_skill.png",
-    chance : 10  // in percent
+    chance : 1  // in percent
 };
 
 Lottery.gameConstants.rewards.SKILL_POINTS = {
@@ -47,7 +47,7 @@ Lottery.gameConstants.rewards.QUOTE = {
     name : "QUOTE",
     description : "The players wins a quote.",
     image : "images/quote.png",
-    chance : 40  // in percent
+    chance : 1  // in percent
 };
 
 Lottery.gameConstants.rewards.MODIFIER_BY_TWO  = {
